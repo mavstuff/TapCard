@@ -1,58 +1,53 @@
-import com.android.build.gradle.internal.tasks.AndroidTestTask
-
-apply plugin: 'com.android.application'
-apply plugin: 'com.getkeepsafe.dexcount'
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    compileOptions {
-        sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
-        targetCompatibility = rootProject.ext.targetCompatibilityVersion
-    }
+    namespace 'io.github.tapcard.sample.android'
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId 'io.github.tapcard.sample.android'
-        minSdkVersion 15
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdk 21
+        targetSdk rootProject.ext.targetSdkVersion
         versionCode 28
         versionName '2.1.9'
     }
 
-    lintOptions {
-        textReport true
-        textOutput 'stdout'
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
 
-        abortOnError false // TODO fix lint errors
+    buildFeatures {
+        buildConfig true
+        aidl true
+    }
+
+    lint {
+        abortOnError false
+        textReport true
     }
 }
 
 dependencies {
-    compile project(':tapcard')
-    compile deps.appcompatv7
+    implementation project(':tapcard')
+    implementation deps.appcompat
+    implementation 'androidx.fragment:fragment:1.8.6'
+    implementation 'androidx.viewpager:viewpager:1.1.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
+    implementation 'androidx.preference:preference:1.2.1'
 
-    compile 'org.apache.commons:commons-lang3:3.1'
-    compile 'commons-io:commons-io:2.4'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'commons-io:commons-io:2.15.1'
 
-    compile 'org.slf4j:slf4j-api:1.7.5'
-    compile 'org.slf4j:slf4j-log4j12:1.7.5'
-    compile 'log4j:log4j:1.2.17'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:slf4j-reload4j:1.7.36'
+    implementation 'ch.qos.reload4j:reload4j:1.2.22'
 
-    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
-        // exclusion is not necessary, but generally a good idea.
+    implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    implementation('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
-    }
-}
-
-afterEvaluate {
-    tasks.withType(AndroidTestTask) { task ->
-        task.doFirst {
-            logging.level = LogLevel.INFO
-        }
-        task.doLast {
-            logging.level = LogLevel.LIFECYCLE
-        }
+        exclude group: 'com.android.support', module: 'support-v4'
     }
 }

@@ -23,10 +23,10 @@ import android.nfc.tech.IsoDep;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -71,7 +71,7 @@ import io.github.tapcard.emvnfccard.utils.BytesUtils;
  *
  */
 @SuppressLint("InlinedApi")
-public class HomeActivity extends FragmentActivity implements OnItemClickListener, IContentActivity, OnClickListener {
+public class HomeActivity extends AppCompatActivity implements OnItemClickListener, IContentActivity, OnClickListener {
 
 	/**
 	 * Nfc utils
@@ -171,19 +171,18 @@ public class HomeActivity extends FragmentActivity implements OnItemClickListene
 		mActionBarDrawerToggle = new ActionBarDrawerToggle(/* */
 				this, /* host Activity */
 				mDrawerLayout, /* DrawerLayout object */
-				R.drawable.ic_drawer, /* nav drawer icon to replace 'Up' caret */
 				R.string.navigation_menu_open, /* "open drawer" description */
 				R.string.navigation_menu_close /* "close drawer" description */
 				);
 
 		// 2.2 Set actionBarDrawerToggle as the DrawerListener
-		mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+		mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowCustomEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayShowCustomEnabled(true);
 
 		// Display home screen
 		backToHomeScreen();

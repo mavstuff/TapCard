@@ -2,7 +2,7 @@ package io.github.tapcard.sample.android.fragment;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;

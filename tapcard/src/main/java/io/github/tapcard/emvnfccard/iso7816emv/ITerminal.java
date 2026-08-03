@@ -15,36 +15,17 @@
  */
 package io.github.tapcard.emvnfccard.iso7816emv;
 
-import io.github.tapcard.emvnfccard.iso7816emv.impl.DefaultTerminalImpl;
-
 /**
- * Factory to create Tag value. Delegates to {@link DefaultTerminalImpl} with
- * default France / EUR settings for backward compatibility.
- *
- * @author Millau Julien
- * @deprecated Prefer injecting {@link ITerminal} / {@link DefaultTerminalImpl}
- *             into {@link io.github.tapcard.emvnfccard.parser.EmvParser}
+ * Terminal interface used to build PDOL / terminal data values for GPO.
  */
-@Deprecated
-public final class EmvTerminal {
-
-	private static final ITerminal DEFAULT = new DefaultTerminalImpl();
+public interface ITerminal {
 
 	/**
-	 * Method used to construct value from tag and length
+	 * Construct value from tag and length
 	 *
 	 * @param pTagAndLength
 	 *            tag and length value
 	 * @return tag value in byte
 	 */
-	public static byte[] constructValue(final TagAndLength pTagAndLength) {
-		return DEFAULT.constructValue(pTagAndLength);
-	}
-
-	/**
-	 * Private Constructor
-	 */
-	private EmvTerminal() {
-	}
-
+	byte[] constructValue(TagAndLength pTagAndLength);
 }

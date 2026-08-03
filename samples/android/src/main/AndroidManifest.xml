@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.tapcard.sample.android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -19,6 +18,7 @@
         android:supportsRtl="false">
         <activity
             android:name=".activity.HomeActivity"
+            android:exported="true"
             android:label="@string/activity_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >

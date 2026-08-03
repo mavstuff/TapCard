@@ -13,6 +13,8 @@ import java.util.concurrent.Callable;
 import io.github.tapcard.emvnfccard.log.Logger;
 import io.github.tapcard.emvnfccard.log.LoggerFactory;
 import io.github.tapcard.emvnfccard.model.EmvCard;
+import io.github.tapcard.emvnfccard.iso7816emv.ITerminal;
+import io.github.tapcard.emvnfccard.iso7816emv.impl.DefaultTerminalImpl;
 import io.github.tapcard.emvnfccard.parser.EmvParser;
 import io.github.tapcard.emvnfccard.utils.AtrUtils;
 import io.github.tapcard.emvnfccard.utils.BytesUtils;
@@ -24,12 +26,42 @@ import rx.schedulers.Schedulers;
 public class NFCCardReader {
     private NFCUtils nfcUtils;
     private AndroidNfcProvider provider;
+    private ITerminal terminal;
     private Logger logger;
 
     public NFCCardReader(Activity activity) {
         nfcUtils = new NFCUtils(activity);
         provider = new AndroidNfcProvider();
+        terminal = new DefaultTerminalImpl();
         logger = LoggerFactory.getLogger(NFCCardReader.class);
+    }
+
+    /**
+     * Set terminal used to fill PDOL values (country, currency, …) during GPO.
+     * For Ukraine / UAH:
+     * <pre>
+     * DefaultTerminalImpl terminal = new DefaultTerminalImpl();
+     * terminal.setCountryCode(CountryCodeEnum.UA);
+     * // currency is derived as UAH; or set explicitly:
+     * // terminal.setCurrency(CurrencyEnum.UAH);
+     * reader.setTerminal(terminal);
+     * </pre>
+     *
+     * @param terminal terminal implementation (null keeps the current one)
+     * @return this reader
+     */
+    public NFCCardReader setTerminal(ITerminal terminal) {
+        if (terminal != null) {
+            this.terminal = terminal;
+        }
+        return this;
+    }
+
+    /**
+     * @return the terminal used for PDOL / GPO values
+     */
+    public ITerminal getTerminal() {
+        return terminal;
     }
 
     /**
@@ -102,7 +134,7 @@ public class NFCCardReader {
             tagComm.connect();
             provider.setmTagCom(tagComm);
 
-            EmvParser parser = new EmvParser(provider, true);
+            EmvParser parser = new EmvParser(provider, true, terminal);
             final EmvCard emvCard = parser.readEmvCard();
 
             emvCard.setAtrDescription(extractAtsDescription(tagComm));

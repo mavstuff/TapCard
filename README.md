@@ -74,13 +74,13 @@ Step 1. Add the JitPack repository to your build file
 Step 2. Add the dependency
 ```groovy
 	dependencies {
-		compile 'com.github.TapCard.TapCard:android:master-SNAPSHOT'
+		implementation 'com.github.TapCard.TapCard:android:2.2.0'
 	}
 ```
 or for specific commit
 ```groovy
 	dependencies {
-		compile 'com.github.TapCard.TapCard:android:6673d687ba'
+		implementation 'com.github.TapCard.TapCard:android:6673d687ba'
 	}
 ```
 
@@ -110,6 +110,8 @@ Forks and Pull Requests are also welcome.
 Copyright 2014 Millau Julien.
 
 Copyright 2017 CkEsc.
+
+Copyright 2026 Artem Moroz \<artem.moroz@gmail.com\>.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this work except in compliance with the License.

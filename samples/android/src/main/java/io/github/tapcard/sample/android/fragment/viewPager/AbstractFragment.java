@@ -1,6 +1,6 @@
 package io.github.tapcard.sample.android.fragment.viewPager;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * Abstract fragment

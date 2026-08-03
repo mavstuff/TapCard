@@ -1,8 +1,25 @@
-include ':tapcard',
-        ':tapcard-android',
-        ':samples:android',
-        ':samples:android-simple',
-        ':samples:android-simple-rx2',
-        ':samples:java-pcsc'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
 
 rootProject.name = 'tapcard-parent'
+
+include ':tapcard'
+include ':tapcard-android'
+include ':samples:android'
+include ':samples:android-simple'
+include ':samples:android-simple-rx2'
+include ':samples:java-pcsc'

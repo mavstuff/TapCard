@@ -2,23 +2,30 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- the theme applied to the application or activity -->
-    <style name="MyTheme" parent="@android:style/Theme.Holo.Light">
-<!--         <item name="android:windowFullscreen">true</item> -->
-        <item name="android:actionBarStyle">@style/MyTheme.ActionBar</item>
-        <item name="android:actionMenuTextColor">@android:color/white</item>
+    <style name="MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/MyTheme.ActionBar</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary</item>
+        <item name="drawerArrowStyle">@style/MyTheme.DrawerArrowToggle</item>
     </style>
 
     <!-- ActionBar styles -->
-    <style name="MyTheme.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:background">#03a9f4</item>
-        <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
-        <item name="android:icon">@android:color/transparent</item>
+    <style name="MyTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/primary</item>
+        <item name="titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+        <item name="displayOptions">showTitle|homeAsUp|showHome</item>
     </style>
 
-    <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MyTheme.DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
     </style>
     
     <style name="Crouton.TextApparence" parent="@android:style/TextAppearance.DeviceDefault">

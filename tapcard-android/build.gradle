@@ -1,26 +1,36 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.getkeepsafe.dexcount'
+plugins {
+    id 'com.android.library'
+}
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    namespace 'io.github.tapcard.android'
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-
+        minSdk rootProject.ext.minSdkVersion
         consumerProguardFiles 'proguard-rules.pro'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
     }
 }
 
 dependencies {
-    compile project(':tapcard')
+    api project(':tapcard')
 
-    provided deps.rxJava1 // Optional
-    provided deps.rxJava2 // Optional
+    compileOnly deps.rxJava1
+    compileOnly deps.rxJava2
 
-    testCompile deps.junit
+    testImplementation deps.junit
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

@@ -3,7 +3,7 @@ package io.github.tapcard.sample.android.fragment;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.support.v4.preference.PreferenceFragment;
+import io.github.tapcard.sample.android.preference.PreferenceFragment;
 import android.view.View;
 
 import io.github.tapcard.sample.android.R;

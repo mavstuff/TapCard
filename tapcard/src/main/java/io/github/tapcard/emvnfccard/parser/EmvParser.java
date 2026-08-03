@@ -29,9 +29,10 @@ import io.github.tapcard.emvnfccard.enums.EmvCardScheme;
 import io.github.tapcard.emvnfccard.enums.SwEnum;
 import io.github.tapcard.emvnfccard.exception.CommunicationException;
 import io.github.tapcard.emvnfccard.iso7816emv.EmvTags;
-import io.github.tapcard.emvnfccard.iso7816emv.EmvTerminal;
+import io.github.tapcard.emvnfccard.iso7816emv.ITerminal;
 import io.github.tapcard.emvnfccard.iso7816emv.TLV;
 import io.github.tapcard.emvnfccard.iso7816emv.TagAndLength;
+import io.github.tapcard.emvnfccard.iso7816emv.impl.DefaultTerminalImpl;
 import io.github.tapcard.emvnfccard.model.Afl;
 import io.github.tapcard.emvnfccard.model.EmvCard;
 import io.github.tapcard.emvnfccard.model.EmvTransactionRecord;
@@ -83,6 +84,11 @@ public class EmvParser {
 	private IProvider provider;
 
 	/**
+	 * Terminal used to build PDOL / GPO values
+	 */
+	private ITerminal terminal;
+
+	/**
 	 * use contact less mode
 	 */
 	private boolean contactLess;
@@ -101,9 +107,34 @@ public class EmvParser {
 	 *            boolean to indicate if the EMV card is contact less or not
 	 */
 	public EmvParser(final IProvider pProvider, final boolean pContactLess) {
+		this(pProvider, pContactLess, null);
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param pProvider
+	 *            provider to launch command
+	 * @param pContactLess
+	 *            boolean to indicate if the EMV card is contact less or not
+	 * @param pTerminal
+	 *            terminal implementation used to fill PDOL values (country, currency, …).
+	 *            If null, {@link DefaultTerminalImpl} with France / EUR is used.
+	 */
+	public EmvParser(final IProvider pProvider, final boolean pContactLess, final ITerminal pTerminal) {
 		provider = pProvider;
 		contactLess = pContactLess;
+		terminal = pTerminal != null ? pTerminal : new DefaultTerminalImpl();
 		card = new EmvCard();
+	}
+
+	/**
+	 * Method used to get the field terminal
+	 *
+	 * @return the terminal
+	 */
+	public ITerminal getTerminal() {
+		return terminal;
 	}
 
 	/**
@@ -561,7 +592,7 @@ public class EmvParser {
 			out.write(TlvUtil.getLength(list)); // ADD total length
 			if (list != null) {
 				for (TagAndLength tl : list) {
-					out.write(EmvTerminal.constructValue(tl));
+					out.write(terminal.constructValue(tl));
 				}
 			}
 		} catch (IOException ioe) {

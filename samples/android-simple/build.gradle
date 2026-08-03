@@ -1,40 +1,39 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.getkeepsafe.dexcount'
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    compileOptions {
-        sourceCompatibility = rootProject.ext.sourceCompatibilityVersion
-        targetCompatibility = rootProject.ext.targetCompatibilityVersion
-    }
+    namespace 'io.github.tapcard.sample.android.simple'
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "io.github.tapcard.sample.android.simple"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-
+        applicationId 'io.github.tapcard.sample.android.simple'
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName '1.0'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibilityVersion
+        targetCompatibility rootProject.ext.targetCompatibilityVersion
+    }
+
     buildTypes {
         release {
-            minifyEnabled true
-            signingConfig signingConfigs.debug // For testing purpose we sign with debug key
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    compile project(':tapcard-android')
-//  compile deps.tapCardAndroid
-
-    compile deps.appcompatv7
-    compile 'com.android.support.constraint:constraint-layout:1.1.0-beta1'
-
-    testCompile deps.junit
+    implementation project(':tapcard-android')
+    implementation deps.appcompat
+    implementation deps.constraintlayout
+    testImplementation deps.junit
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
 }

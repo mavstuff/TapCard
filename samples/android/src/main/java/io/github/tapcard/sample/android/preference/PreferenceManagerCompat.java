@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.support.v4.preference;
+package io.github.tapcard.sample.android.preference;
 
 import android.annotation.SuppressLint;
 import java.lang.reflect.Constructor;
