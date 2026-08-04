@@ -6,12 +6,9 @@ import java.util.List;
 
 import org.fest.assertions.Assertions;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import io.github.tapcard.emvnfccard.enums.TagTypeEnum;
+import io.github.tapcard.emvnfccard.testutil.Reflect;
 import io.github.tapcard.emvnfccard.enums.TagValueTypeEnum;
 import io.github.tapcard.emvnfccard.iso7816emv.EmvTags;
 import io.github.tapcard.emvnfccard.iso7816emv.ITag;
@@ -19,8 +16,6 @@ import io.github.tapcard.emvnfccard.iso7816emv.TagAndLength;
 
 import io.github.tapcard.emvnfccard.utils.BytesUtils;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ TlvUtil.class })
 public class TlvUtilTest {
 
 	private static final byte[] DATA = BytesUtils.fromString("70 63 61 13 4f 09 a0 00 00 03 15 10 10 05 28 50"
@@ -73,9 +68,9 @@ public class TlvUtilTest {
 	@Test
 	public void testSearchTagById() throws Exception {
 
-		ITag tag = (ITag) Whitebox.invokeMethod(TlvUtil.class, "searchTagById", BytesUtils.fromString("9F6B"));
+		ITag tag = (ITag) Reflect.invokeStatic(TlvUtil.class, "searchTagById", BytesUtils.fromString("9F6B"));
 		Assertions.assertThat(tag).isEqualTo(EmvTags.TRACK2_DATA);
-		tag = (ITag) Whitebox.invokeMethod(TlvUtil.class, "searchTagById", BytesUtils.fromString("FFFF"));
+		tag = (ITag) Reflect.invokeStatic(TlvUtil.class, "searchTagById", BytesUtils.fromString("FFFF"));
 		Assertions.assertThat(tag.getName()).isEqualTo("[UNKNOWN TAG]");
 		Assertions.assertThat(tag.getDescription()).isEqualTo("");
 		Assertions.assertThat(tag.getTagBytes()).isEqualTo(BytesUtils.fromString("FFFF"));
@@ -94,11 +89,11 @@ public class TlvUtilTest {
 
 		ByteArrayInputStream in = new ByteArrayInputStream(BytesUtils.fromString("9F6B"));
 
-		ITag tag = (ITag) Whitebox.invokeMethod(TlvUtil.class, "searchTagById", in);
+		ITag tag = (ITag) Reflect.invokeStatic(TlvUtil.class, "searchTagById", in);
 		Assertions.assertThat(tag).isEqualTo(EmvTags.TRACK2_DATA);
 
 		in = new ByteArrayInputStream(BytesUtils.fromString("FFFF"));
-		tag = (ITag) Whitebox.invokeMethod(TlvUtil.class, "searchTagById", in);
+		tag = (ITag) Reflect.invokeStatic(TlvUtil.class, "searchTagById", in);
 		Assertions.assertThat(tag.getName()).isEqualTo("[UNKNOWN TAG]");
 		Assertions.assertThat(tag.getDescription()).isEqualTo("");
 		Assertions.assertThat(tag.getTagBytes()).isEqualTo(BytesUtils.fromString("FFFF"));
@@ -141,19 +136,19 @@ public class TlvUtilTest {
 	public void testGetTagValueAsString() throws Exception {
 		Assertions
 				.assertThat(
-						(String) Whitebox.invokeMethod(TlvUtil.class, "getTagValueAsString", EmvTags.ACQUIRER_IDENTIFIER,
+						(String) Reflect.invokeStatic(TlvUtil.class, "getTagValueAsString", EmvTags.ACQUIRER_IDENTIFIER,
 								"56".getBytes())).isEqualTo("NUMERIC");
 		Assertions.assertThat(
-				(String) Whitebox.invokeMethod(TlvUtil.class, "getTagValueAsString", EmvTags.ISSUER_COUNTRY_CODE_ALPHA3,
+				(String) Reflect.invokeStatic(TlvUtil.class, "getTagValueAsString", EmvTags.ISSUER_COUNTRY_CODE_ALPHA3,
 						"56".getBytes())).isEqualTo("=56");
 		Assertions.assertThat(
-				(String) Whitebox.invokeMethod(TlvUtil.class, "getTagValueAsString", EmvTags.APP_DISCRETIONARY_DATA,
+				(String) Reflect.invokeStatic(TlvUtil.class, "getTagValueAsString", EmvTags.APP_DISCRETIONARY_DATA,
 						"56".getBytes())).isEqualTo("BINARY");
 		Assertions.assertThat(
-				(String) Whitebox.invokeMethod(TlvUtil.class, "getTagValueAsString", EmvTags.BANK_IDENTIFIER_CODE,
+				(String) Reflect.invokeStatic(TlvUtil.class, "getTagValueAsString", EmvTags.BANK_IDENTIFIER_CODE,
 						"56".getBytes())).isEqualTo("=56");
 		Assertions
-				.assertThat((String) Whitebox.invokeMethod(TlvUtil.class, "getTagValueAsString", EmvTags.DDOL, "56".getBytes()))
+				.assertThat((String) Reflect.invokeStatic(TlvUtil.class, "getTagValueAsString", EmvTags.DDOL, "56".getBytes()))
 				.isEqualTo("");
 	}
 }
