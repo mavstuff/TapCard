@@ -138,6 +138,13 @@ public class EmvParser {
 	}
 
 	/**
+	 * Provider used for APDU exchange (subclasses that override parse/extract need this).
+	 */
+	protected IProvider getProvider() {
+		return provider;
+	}
+
+	/**
 	 * Method used to read public data from EMV card
 	 *
 	 * @return data read from card or null if any provider match the card type

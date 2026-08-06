@@ -47,4 +47,16 @@ public class CommunicationException extends IOException {
 		super(pMessage);
 	}
 
+	/**
+	 * Constructor with cause (e.g. TagLostException from IsoDep).
+	 *
+	 * @param pMessage
+	 *            Exception message
+	 * @param cause
+	 *            underlying I/O failure
+	 */
+	public CommunicationException(final String pMessage, final Throwable cause) {
+		super(pMessage, cause);
+	}
+
 }
