@@ -4,6 +4,9 @@ local.properties
 .gradle
 build/
 
+# Java/IDE class output
+tapcard/bin/
+
 # Android Studio Navigation editor temp files
 .navigation/
 
